@@ -36,6 +36,6 @@ func Start() {
 	serveMux.Handle("/socket.io/", server)
 	serveMux.Handle("/", http.FileServer(http.Dir("./asset")))
 	log.Println("Listening on :8000")
-	log.Panic(http.ListenAndServe(":8000", serveMux))
+	log.Panic(http.ListenAndServe("0.0.0.0:8000", serveMux))
 
 }
