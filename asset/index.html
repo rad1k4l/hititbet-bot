@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>Hello</h1>
+<script src="https://cdn.socket.io/3.1.1/socket.io.min.js"></script>
+
+<script>
+    const socket = io("ws://localhost:8000", {transports: ["websocket"]});
+    socket.on('message', function (message) {
+        console.log('new message');
+        console.log(message);
+    });
+    socket.on('connect', function () {
+        console.log('socket connected');
+        socket.emit('send', {name: "my name", message: "hello"}, function (result) {
+            console.log('sended successfully');
+            console.log(result);
+        });
+    });
+</script>
+</body>
+</html>
