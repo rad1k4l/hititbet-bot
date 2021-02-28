@@ -1,41 +1,64 @@
 package net
 
 import (
-	"github.com/graarh/golang-socketio"
-	"github.com/graarh/golang-socketio/transport"
+	"github.com/gobwas/ws"
+	"github.com/gobwas/ws/wsutil"
 	"hitetbet/livebet"
+)
+
+import (
+	"flag"
+	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
 )
 
-func Start() {
-	server := gosocketio.NewServer(transport.GetDefaultWebsocketTransport())
+var addr = flag.String("addr", "0.0.0.0:8000", "http service address")
 
-	//handle connected
-	_ = server.On(gosocketio.OnConnection, func(c *gosocketio.Channel) {
-		log.Println("New client connected")
-		log.Println("Sending welcome message")
-		c.Join("chat")
-		if c.IsAlive() {
-			_ = c.Emit("message", livebet.GetActualData())
-		}
-	})
-	go func() {
-		for {
-			server.BroadcastToAll("message", string(<-livebet.LiveBettingCh))
-		}
-	}()
+var upgrader = websocket.Upgrader{} // use default options
 
-	type Message struct {
-		Name    string `json:"name"`
-		Message string `json:"message"`
+func echo(w http.ResponseWriter, r *http.Request) {
+	c, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		log.Print("upgrade:", err)
+		return
 	}
+	defer c.Close()
+	for {
+		err = c.WriteMessage(1, <-livebet.LiveBettingCh)
+		if err != nil {
+			log.Println("write:", err)
+			break
+		}
+	}
+}
 
-	//setup http server
-	serveMux := http.NewServeMux()
-	serveMux.Handle("/socket.io/", server)
-	serveMux.Handle("/", http.FileServer(http.Dir("./asset")))
-	log.Println("Listening on :8000")
-	log.Panic(http.ListenAndServe("0.0.0.0:8000", serveMux))
+func Start() {
+	flag.Parse()
+	log.SetFlags(0)
+	http.HandleFunc("/socket", echo)
+	//http.HandleFunc("/", home)
+	http.Handle("/", http.FileServer(http.Dir("./asset")))
+	log.Fatal(http.ListenAndServe(*addr, nil))
+}
 
+
+func _Start() {
+	http.Handle("/", http.FileServer(http.Dir("./asset")))
+	http.Handle("/sock", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		conn, _, _, err := ws.UpgradeHTTP(r, w)
+		if err != nil {
+			// handle error
+		}
+
+		go func() {
+			defer conn.Close()
+			for {
+				err = wsutil.WriteServerMessage(conn, ws.OpClose, <-livebet.LiveBettingCh)
+				if err != nil {
+				}
+			}
+		}()
+	}))
+	_ = http.ListenAndServe(":8000", nil)
 }

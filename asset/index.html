@@ -10,18 +10,17 @@
 <script src="https://cdn.socket.io/3.1.1/socket.io.min.js"></script>
 
 <script>
-    const socket = io("ws://localhost:8000", {transports: ["websocket"]});
-    socket.on('message', function (message) {
-        console.log('new message');
-        console.log(message);
-    });
-    socket.on('connect', function () {
-        console.log('socket connected');
-        socket.emit('send', {name: "my name", message: "hello"}, function (result) {
-            console.log('sended successfully');
-            console.log(result);
-        });
-    });
+
+    const socket = new WebSocket("ws://localhost:8000/socket");
+
+    socket.onopen = function (conn) {
+        console.log("Connected")
+    };
+
+    socket.onmessage = function (con) {
+        console.log(con)
+    }
+
 </script>
 </body>
 </html>
