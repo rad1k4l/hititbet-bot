@@ -25,6 +25,7 @@ func echo(w http.ResponseWriter, r *http.Request) {
 	}
 	defer c.Close()
 	for {
+		err = c.WriteMessage(1, livebet.GetActualData())
 		err = c.WriteMessage(1, <-livebet.LiveBettingCh)
 		if err != nil {
 			log.Println("write:", err)
@@ -41,7 +42,6 @@ func Start() {
 	http.Handle("/", http.FileServer(http.Dir("./asset")))
 	log.Fatal(http.ListenAndServe(*addr, nil))
 }
-
 
 func _Start() {
 	http.Handle("/", http.FileServer(http.Dir("./asset")))
