@@ -7,6 +7,7 @@ import (
 	"github.com/gorilla/websocket"
 	"hitetbet/livebet"
 	"log"
+	"net"
 	"net/http"
 )
 
@@ -45,6 +46,14 @@ func Start() {
 	log.Fatal(http.ListenAndServe(*addr, nil))
 }
 
+var Clients []net.Conn
+
+func BroadCastService() {
+	for i := 0; i < len(Clients); i++ {
+
+	}
+}
+
 func _Start() {
 	http.Handle("/", http.FileServer(http.Dir("./asset")))
 	http.Handle("/sock", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -56,7 +65,7 @@ func _Start() {
 		go func() {
 			defer conn.Close()
 			for {
-				err = wsutil.WriteServerMessage(conn, ws.OpClose, <-livebet.LiveBettingCh)
+				err = wsutil.WriteServerMessage(conn, ws.OpText, <-livebet.LiveBettingCh)
 				if err != nil {
 				}
 			}
