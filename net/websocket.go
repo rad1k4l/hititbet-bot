@@ -1,14 +1,11 @@
 package net
 
 import (
+	"flag"
 	"github.com/gobwas/ws"
 	"github.com/gobwas/ws/wsutil"
-	"hitetbet/livebet"
-)
-
-import (
-	"flag"
 	"github.com/gorilla/websocket"
+	"hitetbet/livebet"
 	"log"
 	"net/http"
 )
