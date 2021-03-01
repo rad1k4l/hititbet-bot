@@ -1,1 +1,1 @@
-go build -o bin/hititbet
+/usr/local/go/bin/go build -o bin/hititbet
