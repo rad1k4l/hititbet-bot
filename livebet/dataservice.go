@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"crypto/md5"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"sync"
 	"time"
@@ -52,10 +51,6 @@ func StartNotificationService() {
 		elapsedHash := time.Since(startHash)
 		log.Printf("MD5 Hash compare took %s", elapsedHash)
 
-		err := ioutil.WriteFile("./data.json", resp, 0644)
-		if err != nil {
-			fmt.Println(err)
-		}
 		elapsed := time.Since(start)
 
 		log.Printf("Request took %s", elapsed)
