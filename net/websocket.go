@@ -16,27 +16,18 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
+
+
 func echo(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Access-Control-Allow-Origin", "*")
 
-	log.Println("Connected ")
-
 	connection, err := upgrader.Upgrade(w, r, nil)
-
 	if err != nil {
 		log.Print("upgrade:", err)
 		return
 	}
 
-	defer connection.Close()
-	err = connection.WriteMessage(1, livebet.GetActualData())
-	for {
-		err = connection.WriteMessage(1, <-livebet.LiveBettingCh)
-		if err != nil {
-			log.Println("write:", err)
-			break
-		}
-	}
+	livebet.AddClient(connection)
 }
 
 func Start() {
