@@ -23,14 +23,14 @@ func GetLiveBetting() ([]byte, error) {
 		return []byte{}, tokenErr
 	}
 	var jsonStr = []byte(`{
-    "Limit": 4,
+    "Limit": 0,
     "Locale": "en-gb",
     "WildcardLocale": "en-gb",
     "CountryId": null,
     "CompetitionId": null,
     "CategoryId": "1",
     "TeamId": 0,
-    "PageSize": 10,
+    "PageSize": 100,
     "PageIndex": 1,
     "EventFilter": "",
     "CompetitionFilter": "",
