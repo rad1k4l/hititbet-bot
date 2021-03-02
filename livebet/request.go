@@ -23,20 +23,20 @@ func GetLiveBetting() ([]byte, error) {
 		return []byte{}, tokenErr
 	}
 	var jsonStr = []byte(`{
-    "Limit": 0,
-    "Locale": "en-gb",
-    "WildcardLocale": "en-gb",
-    "CountryId": null,
-    "CompetitionId": null,
-    "CategoryId": "1",
-    "TeamId": 0,
-    "PageSize": 100,
-    "PageIndex": 1,
-    "EventFilter": "",
-    "CompetitionFilter": "",
-    "StartDate": "2021-03-02 00:00:00",
-    "EndDate": "2021-03-17 23:59:59"
-}`)
+		"Limit": 0,
+		"Locale": "en-gb",
+		"WildcardLocale": "en-gb",
+		"CountryId": null,
+		"CompetitionId": null,
+		"CategoryId": "1",
+		"TeamId": 0,
+		"PageSize": 100,
+		"PageIndex": 1,
+		"EventFilter": "",
+		"CompetitionFilter": "",
+		"StartDate": "2021-03-02 00:00:00",
+		"EndDate": "2021-03-17 23:59:59"}`)
+
 	req, createError := http.NewRequest(http.MethodPost, api, bytes.NewBuffer(jsonStr))
 	if createError != nil {
 		return []byte{}, createError
@@ -46,7 +46,7 @@ func GetLiveBetting() ([]byte, error) {
 	req.Header.Add("x-hititbet-clientid", tokenResponse.Token.ClientId)
 	req.Header.Add("x-hititbet-locale", "en")
 	req.Header.Add("content-type", "application/json")
-	req.Header.Add("referer", "https://hititbet47.com/")
+	req.Header.Add("referer", "https://hititbet49.com/")
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", tokenResponse.Token.Token))
 	req.Header.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36")
 
