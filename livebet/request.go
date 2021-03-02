@@ -34,13 +34,14 @@ func GetLiveBetting() ([]byte, error) {
     "PageIndex": 1,
     "EventFilter": "",
     "CompetitionFilter": "",
-    "StartDate": "2021-03-01 00:00:00",
-    "EndDate": "2021-03-02 23:59:59"
+    "StartDate": "2021-03-02 00:00:00",
+    "EndDate": "2021-03-20 23:59:59"
 }`)
 	req, createError := http.NewRequest(http.MethodPost, api, bytes.NewBuffer(jsonStr))
 	if createError != nil {
 		return []byte{}, createError
 	}
+
 	req.Header.Add("x-hititbet-aboutme", "ec983929-6dfa-4a01-a0ff-4c31616d3671")
 	req.Header.Add("x-hititbet-clientid", tokenResponse.Token.ClientId)
 	req.Header.Add("x-hititbet-locale", "en")
