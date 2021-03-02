@@ -27,7 +27,6 @@ func GetActualData() []byte {
 }
 
 func StartNotificationService() {
-	fmt.Println("ok")
 	for {
 		start := time.Now()
 		resp, e := GetLiveBetting()

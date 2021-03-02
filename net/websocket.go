@@ -2,12 +2,9 @@ package net
 
 import (
 	"flag"
-	"github.com/gobwas/ws"
-	"github.com/gobwas/ws/wsutil"
 	"github.com/gorilla/websocket"
 	"hitetbet/livebet"
 	"log"
-	"net"
 	"net/http"
 )
 
@@ -21,15 +18,20 @@ var upgrader = websocket.Upgrader{
 
 func echo(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Access-Control-Allow-Origin", "*")
-	c, err := upgrader.Upgrade(w, r, nil)
+
+	log.Println("Connected ")
+
+	connection, err := upgrader.Upgrade(w, r, nil)
+
 	if err != nil {
 		log.Print("upgrade:", err)
 		return
 	}
-	defer c.Close()
+
+	defer connection.Close()
+	err = connection.WriteMessage(1, livebet.GetActualData())
 	for {
-		err = c.WriteMessage(1, livebet.GetActualData())
-		err = c.WriteMessage(1, <-livebet.LiveBettingCh)
+		err = connection.WriteMessage(1, <-livebet.LiveBettingCh)
 		if err != nil {
 			log.Println("write:", err)
 			break
@@ -44,32 +46,4 @@ func Start() {
 	//http.HandleFunc("/", home)
 	http.Handle("/", http.FileServer(http.Dir("./asset")))
 	log.Fatal(http.ListenAndServe(*addr, nil))
-}
-
-var Clients []net.Conn
-
-func BroadCastService() {
-	for i := 0; i < len(Clients); i++ {
-
-	}
-}
-
-func _Start() {
-	http.Handle("/", http.FileServer(http.Dir("./asset")))
-	http.Handle("/sock", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		conn, _, _, err := ws.UpgradeHTTP(r, w)
-		if err != nil {
-			// handle error
-		}
-
-		go func() {
-			defer conn.Close()
-			for {
-				err = wsutil.WriteServerMessage(conn, ws.OpText, <-livebet.LiveBettingCh)
-				if err != nil {
-				}
-			}
-		}()
-	}))
-	_ = http.ListenAndServe(":8000", nil)
 }
