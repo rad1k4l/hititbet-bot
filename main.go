@@ -6,6 +6,7 @@ import (
 )
 
 func main() {
-	go livebet.StartNotificationService()
+	go livebet.HubService()
+	go livebet.NotificationService()
 	net.Start()
 }
