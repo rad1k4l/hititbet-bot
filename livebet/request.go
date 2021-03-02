@@ -35,7 +35,7 @@ func GetLiveBetting() ([]byte, error) {
     "EventFilter": "",
     "CompetitionFilter": "",
     "StartDate": "2021-03-02 00:00:00",
-    "EndDate": "2021-03-20 23:59:59"
+    "EndDate": "2021-03-17 23:59:59"
 }`)
 	req, createError := http.NewRequest(http.MethodPost, api, bytes.NewBuffer(jsonStr))
 	if createError != nil {
