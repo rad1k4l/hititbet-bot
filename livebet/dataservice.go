@@ -4,9 +4,7 @@ import (
 	"bytes"
 	"crypto/md5"
 	"fmt"
-	"log"
 	"sync"
-	"time"
 )
 
 var previousHash []byte
@@ -26,16 +24,16 @@ func GetActualData() []byte {
 	return actualData
 }
 
-func StartNotificationService() {
+func NotificationService() {
 	for {
-		start := time.Now()
+		//start := time.Now()
 		resp, e := GetLiveBetting()
 		if e != nil {
 			fmt.Println(e)
 			return
 		}
 
-		startHash := time.Now()
+		//startHash := time.Now()
 		actualHash := md5.Sum(resp)
 
 		lock.Lock()
@@ -47,11 +45,11 @@ func StartNotificationService() {
 			LiveBettingCh <- resp
 			previousHash = actualHash[:]
 		}
-		elapsedHash := time.Since(startHash)
-		log.Printf("MD5 Hash compare took %s", elapsedHash)
+		//elapsedHash := time.Since(startHash)
+		//log.Printf("MD5 Hash compare took %s", elapsedHash)
 
-		elapsed := time.Since(start)
+		//elapsed := time.Since(start)
 
-		log.Printf("Request took %s", elapsed)
+		//log.Printf("Request took %s", elapsed)
 	}
 }
