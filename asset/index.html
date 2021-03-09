@@ -11,13 +11,23 @@
 
 <script>
 
-    const socket = new WebSocket("ws://localhost:8000/socket");
+    // const socket = new WebSocket("ws://localhost:8000/socket");
+    //
+    // socket.onopen = function (conn) {
+    //     console.log("Connected")
+    // };
+    //
+    // socket.onmessage = function (con) {
+    //     console.log(con)
+    // }
 
-    socket.onopen = function (conn) {
-        console.log("Connected")
+    const prematchSocket = new WebSocket("ws://localhost:8000/hititbet/prematch");
+
+    prematchSocket.onopen = function (conn) {
+        console.log("Connected to prematch channel")
     };
 
-    socket.onmessage = function (con) {
+    prematchSocket.onmessage = function (con) {
         console.log(con)
     }
 

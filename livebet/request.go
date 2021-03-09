@@ -55,6 +55,7 @@ func GetLiveBetting() ([]byte, error) {
 	if callErr != nil {
 		return []byte{}, callErr
 	}
+
 	if response.StatusCode != 200 {
 		return []byte{}, fmt.Errorf(response.Status)
 	}

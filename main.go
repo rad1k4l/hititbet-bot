@@ -2,11 +2,19 @@ package main
 
 import (
 	"hitetbet/livebet"
+	"hitetbet/livebet/prematch"
 	"hitetbet/net"
+	"log"
 )
 
 func main() {
-	go livebet.HubService()
+
 	go livebet.NotificationService()
-	net.Start()
+	go prematch.StartHititbetPrematchService()
+	go livebet.HubService()
+	go prematch.StartPrematchHubService()
+	net.StartWebsocketService()
+
+	b, _ := prematch.GetPrematchEvents()
+	log.Println(string(b))
 }

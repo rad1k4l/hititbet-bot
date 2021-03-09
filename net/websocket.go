@@ -4,6 +4,7 @@ import (
 	"flag"
 	"github.com/gorilla/websocket"
 	"hitetbet/livebet"
+	"hitetbet/livebet/prematch"
 	"log"
 	"net/http"
 )
@@ -16,9 +17,7 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-
-
-func echo(w http.ResponseWriter, r *http.Request) {
+func liveBettingHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Access-Control-Allow-Origin", "*")
 
 	connection, err := upgrader.Upgrade(w, r, nil)
@@ -30,11 +29,24 @@ func echo(w http.ResponseWriter, r *http.Request) {
 	livebet.AddClient(connection)
 }
 
-func Start() {
+func prematchHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+
+	connection, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		log.Print("upgrade:", err)
+		return
+	}
+
+	prematch.AddClient(connection)
+}
+
+func StartWebsocketService() {
 	flag.Parse()
 	log.SetFlags(0)
-	http.HandleFunc("/socket", echo)
-	//http.HandleFunc("/", home)
+	http.HandleFunc("/socket", liveBettingHandler)
+	http.HandleFunc("/hititbet/prematch", prematchHandler)
+
 	http.Handle("/", http.FileServer(http.Dir("./asset")))
 	log.Fatal(http.ListenAndServe(*addr, nil))
 }
