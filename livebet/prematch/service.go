@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-var pollInterval time.Duration = 30 * time.Second
+var pollInterval time.Duration = 1 * time.Minute
 var actualData []byte
 var previousHash []byte
 var NewEventCh chan []byte
