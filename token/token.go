@@ -3,7 +3,6 @@ package token
 import (
 	"encoding/json"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"time"
 )
@@ -48,6 +47,6 @@ func GetToken() (*ApiResponse, error) {
 
 	lastSync = time.Now()
 	tokenResponse = apiResp
-	log.Println("Token cache flushed")
+	//log.Println("Token cache flushed")
 	return apiResp, callErr
 }
