@@ -28,7 +28,7 @@ func CreateHititbetRequest(url string, body []byte) (*http.Request, error) {
 	req.Header.Add("x-hititbet-clientid", tokenResponse.Token.ClientId)
 	req.Header.Add("x-hititbet-locale", "en")
 	req.Header.Add("content-type", "application/json")
-	req.Header.Add("referer", "https://hititbet50.com/")
+	req.Header.Add("referer", "https://hititbet49.com/")
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", tokenResponse.Token.Token))
 	req.Header.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36")
 	return req, nil
