@@ -32,7 +32,8 @@ func GetActualData() []byte {
 	return actualData
 }
 
-func StartHititbetPrematchService() {
+func StartHititbetPrematchService(wg *sync.WaitGroup) {
+	defer wg.Done()
 	for true {
 		resp, e := GetPrematchEvents()
 		if e != nil {

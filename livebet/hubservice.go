@@ -13,7 +13,8 @@ func init() {
 
 var clients []*websocket.Conn
 
-func HubService() {
+func HubService(wg *sync.WaitGroup) {
+	defer wg.Done()
 	for data := range LiveBettingCh {
 		for index, client := range clients {
 			go func(cl *websocket.Conn, i int) {
@@ -45,4 +46,3 @@ func ClientCount() int {
 	defer clientLock.Unlock()
 	return len(clients)
 }
-

@@ -24,7 +24,8 @@ func GetActualData() []byte {
 	return actualData
 }
 
-func NotificationService() {
+func NotificationService(wg *sync.WaitGroup) {
+	defer wg.Done()
 	for {
 		//start := time.Now()
 		resp, e := GetLiveBetting()

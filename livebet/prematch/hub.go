@@ -5,7 +5,6 @@ import (
 	"sync"
 )
 
-
 var clientLock *sync.Mutex
 
 func init() {
@@ -14,7 +13,8 @@ func init() {
 
 var clients []*websocket.Conn
 
-func StartPrematchHubService() {
+func StartPrematchHubService(wg *sync.WaitGroup) {
+	defer wg.Done()
 	for data := range NewEventCh {
 		for index, client := range clients {
 			go func(cl *websocket.Conn, i int) {
