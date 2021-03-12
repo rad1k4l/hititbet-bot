@@ -23,13 +23,15 @@ func CreateHititbetRequest(url string, body []byte) (*http.Request, error) {
 	if createError != nil {
 		return nil, createError
 	}
-
-	req.Header.Add("x-hititbet-aboutme", "ec983929-6dfa-4a01-a0ff-4c31616d3671")
-	req.Header.Add("x-hititbet-clientid", tokenResponse.Token.ClientId)
-	req.Header.Add("x-hititbet-locale", "en")
-	req.Header.Add("content-type", "application/json")
-	req.Header.Add("referer", "https://hititbet49.com/")
-	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", tokenResponse.Token.Token))
-	req.Header.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36")
+	SetHeaders(req, tokenResponse)
 	return req, nil
+}
+
+func SetHeaders(r *http.Request, tokenResponse *token.ApiResponse) {
+	r.Header.Add("x-hititbet-aboutme", "ec983929-6dfa-4a01-a0ff-4c31616d3671")
+	r.Header.Add("x-hititbet-clientid", tokenResponse.Token.ClientId)
+	r.Header.Add("x-hititbet-locale", "en")
+	r.Header.Add( "content-type", "application/json")
+	r.Header.Add("referer", "https://hititbet49.com/")
+	r.Header.Add("Authorization", fmt.Sprintf("Bearer %s", tokenResponse.Token.Token))
 }
