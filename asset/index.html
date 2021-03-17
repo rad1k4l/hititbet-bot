@@ -10,26 +10,40 @@
 <script src="https://cdn.socket.io/3.1.1/socket.io.min.js"></script>
 
 <script>
+    let publicWServer  = "ws://18.195.237.164:8000/hititbet/prematch";
+    let localPrematchWServer  = "ws://localhost:8000/hititbet/prematch";
 
-    // const socket = new WebSocket("ws://localhost:8000/socket");
-    //
-    // socket.onopen = function (conn) {
-    //     console.log("Connected")
-    // };
-    //
-    // socket.onmessage = function (con) {
-    //     console.log(con)
-    // }
 
-    const prematchSocket = new WebSocket("ws://localhost:8000/hititbet/prematch");
+    const socket = new WebSocket("ws://18.195.237.164:8000/socket");
 
-    prematchSocket.onopen = function (conn) {
-        console.log("Connected to prematch channel")
+    socket.onopen = function (conn) {
+        console.log("Connected")
     };
 
-    prematchSocket.onmessage = function (con) {
-        console.log(con)
+    socket.onmessage = function (con) {
+        console.log(con.data)
     }
+    //
+    // const prematchSocket = new WebSocket(publicWServer);
+    //
+    // prematchSocket.onopen = function (conn) {
+    //     console.log("Connected to prematch channel")
+    // };
+    //
+    // prematchSocket.onmessage = function (con) {
+    //     console.log(con)
+    // }
+    //
+    // const localSocket = new WebSocket(localPrematchWServer);
+    //
+    // localSocket.onopen = function (conn) {
+    //     console.log("Connected to local prematch channel")
+    // };
+    //
+    // localSocket.onmessage = function (con) {
+    //     console.log("from local pm server")
+    //     console.log(con)
+    // };
 
 </script>
 </body>

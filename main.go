@@ -8,6 +8,15 @@ import (
 )
 
 func main() {
+	//req, _ := proxy.NewRequest(http.MethodPost, "https://google.com", map[string]string{
+	//	"data": "sfds",
+	//})
+	//req.AddHeader("Key1", "Value tsest")
+	//req.Build()
+	StartServices()
+}
+
+func StartServices() {
 	var wg *sync.WaitGroup = &sync.WaitGroup{}
 
 	wg.Add(1)
